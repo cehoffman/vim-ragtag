@@ -511,7 +511,7 @@ inoremap <silent> <Plug>ragtagXmlV      <C-R>="&#".getchar().";"<CR>
 
 if exists("g:ragtag_global_maps")
   imap     <C-X>H      <Plug>ragtagHtmlComplete
-  imap     <C-X>/    </<Plug>ragtagHtmlComplete
+  imap     <C-X>/      <C-V></<Plug>ragtagHtmlComplete
   imap     <C-X>%      <Plug>ragtagUrlEncode
   imap     <C-X>&      <Plug>ragtagXmlEncode
   imap     <C-V>%      <Plug>ragtagUrlV
