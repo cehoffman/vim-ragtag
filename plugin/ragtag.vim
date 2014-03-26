@@ -8,12 +8,25 @@ if exists("g:loaded_ragtag") || &cp
 endif
 let g:loaded_ragtag = 1
 
+if !exists('g:html_indent_inctags')
+  let g:html_indent_inctags = 'body,head,html,tbody,p,li,dt,dd'
+endif
+if !exists('g:html_indent_autotags')
+  let g:html_indent_autotags = 'wbr'
+endif
+if !exists('g:html_indent_script1')
+  let g:html_indent_script1 = 'inc'
+endif
+if !exists('g:html_indent_style1')
+  let g:html_indent_style1 = 'inc'
+endif
+
 if has("autocmd")
   augroup ragtag
     autocmd!
     autocmd FileType *html*,wml,jsp,mustache,smarty call s:Init()
     autocmd FileType php,asp*,cf,mason,eruby,liquid call s:Init()
-    autocmd FileType xml,xslt,xsd,docbk             call s:Init()
+    autocmd FileType xml,xslt,xsd,docbk,jst         call s:Init()
     if version >= 700
       autocmd InsertLeave * call s:Leave()
     endif
@@ -53,7 +66,7 @@ function! s:Init()
   imap     <buffer> <C-X>H <SID>HtmlComplete
   inoremap <silent> <buffer> <C-X>$ <C-R>=<SID>javascriptIncludeTag()<CR>
   inoremap <silent> <buffer> <C-X>@ <C-R>=<SID>stylesheetTag()<CR>
-  inoremap <silent> <buffer> <C-X><Space> <Esc>ciW<Lt><C-R>"<C-R>=<SID>tagextras()<CR>></<C-R>"><Esc>b2hi
+  inoremap <silent> <buffer> <C-X><Space> <Esc>ciW<Lt><C-R>"<C-R>=<SID>tagextras()<CR>></<C-R>"><Esc>F<i
   inoremap <silent> <buffer> <C-X><CR> <Esc>ciW<Lt><C-R>"<C-R>=<SID>tagextras()<CR>><CR></<C-R>"><Esc>O
   if exists("&omnifunc")
     inoremap <silent> <buffer> <C-X>/ <Lt>/<C-R>=<SID>htmlEn()<CR><C-X><C-O><C-R>=<SID>htmlDis()<CR><C-F>
@@ -137,7 +150,7 @@ function! s:Init()
     imap     <buffer> <C-X>] <C-X><Lt><CR><C-X>><Esc>O
   endif
   " <% %>
-  if &ft =~ '\<eruby\>'
+  if &ft =~ '\<eruby\>' || &ft == "jst"
     inoremap  <buffer> <C-X>- <%<Space><Space>%><Esc>2hi
     inoremap  <buffer> <C-X>_ <C-V><NL><Esc>I<%<Space><Esc>A<Space>%><Esc>F<NL>s
   elseif &ft == "cf"
